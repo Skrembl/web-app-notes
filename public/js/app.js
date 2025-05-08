@@ -19,6 +19,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const searchTerm = e.target.value.toLowerCase();
         console.log("Поиск:", searchTerm);
     });
+    const searchBlock = document.querySelector(".search");
+
+    searchInput.addEventListener("focus", () => {
+        searchBlock.classList.add("search--active");
+        searchBlock.style.boxShadow = "0px 0px 0px 0px var(--shadow-color-1)";
+    });
+    searchInput.addEventListener("blur", () => {
+        searchBlock.classList.remove("search--active");
+        searchBlock.style.boxShadow = "0px 0px 30px 10px var(--shadow-color-1)";
+    });
 
     //! Обработчики для правой части навигации
     const navRightIcons = document.querySelectorAll(".nb__right img");
@@ -45,16 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .addEventListener("click", function () {
             console.log("Открытие бокового меню");
         });
-
-    searchInput.addEventListener("focus", function () {
-        document.querySelector(".search").style.boxShadow =
-            "0 0 15px rgba(0,0,0,0.2)";
-    });
-
-    searchInput.addEventListener("blur", function () {
-        document.querySelector(".search").style.boxShadow =
-            "0px 0px 30px 10px rgba(172, 172, 172, 0.5)";
-    });
 });
 
 // ! Эффект печатающегося текста
