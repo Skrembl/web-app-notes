@@ -36,73 +36,24 @@ document.addEventListener("DOMContentLoaded", function () {
         icon.addEventListener("click", function () {
             const altText = this.alt;
             switch (altText) {
-                case "Перезагрузка":
-                    location.reload();
-                    break;
                 case "Список":
                     console.log("Показать список заметок");
                     break;
                 case "Настройки":
                     console.log("Открыть настройки");
                     break;
+                case "Аккаунт":
+                    console.log("Аккаунт");
+                    break;
             }
         });
     });
 
-    //! Обработчик для меню (прототип)
-    document
-        .querySelector('.nb__left img[alt="Меню"]')
-        .addEventListener("click", function () {
-            console.log("Открытие бокового меню");
-        });
+    //! Плавное появление элементов при клике на меню
+    const menuLeft = document.getElementById("menu-left");
+    const leftItems = document.querySelector(".menu__left-items");
+
+    menuLeft.addEventListener("click", () => {
+        leftItems.classList.toggle("slide");
+    });
 });
-
-// ! Эффект печатающегося текста
-class TypeWriter {
-    constructor(elementId, texts, speed = 100, pause = 2000) {
-        this.element = document.getElementById(elementId);
-        this.texts = texts;
-        this.speed = speed;
-        this.pause = pause;
-        this.index = 0;
-        this.text = "";
-        this.isDeleting = false;
-        this.type();
-    }
-
-    type() {
-        const currentText = this.texts[this.index];
-
-        if (this.isDeleting) {
-            this.text = currentText.substring(0, this.text.length - 1);
-        } else {
-            this.text = currentText.substring(0, this.text.length + 1);
-        }
-
-        this.element.innerHTML = this.text + '<span class="cursor">|</span>';
-
-        let typeSpeed = this.speed;
-
-        if (this.isDeleting) {
-            typeSpeed /= 2;
-        }
-
-        if (!this.isDeleting && this.text === currentText) {
-            typeSpeed = this.pause;
-            this.isDeleting = true;
-        } else if (this.isDeleting && this.text === "") {
-            this.isDeleting = false;
-            this.index = (this.index + 1) % this.texts.length;
-            typeSpeed = 500;
-        }
-
-        setTimeout(() => this.type(), typeSpeed);
-    }
-}
-
-new TypeWriter(
-    "typing-effect",
-    ["Эта страница в разработке!", "Приносим свои извинения"],
-    100,
-    1500
-);

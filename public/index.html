@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Заметки (Набросок)</title>
+        <title>Заметки (PWA)</title>
 
         <!-- !Roboto Font -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,8 +26,9 @@
                             src="./images/icons/menu.svg"
                             alt="Меню"
                             title="Меню"
+                            id="menu-left"
                         />
-                        <a href="#!">Akim.mem</a>
+                        <a href="index.html">Akim.mem</a>
                     </div>
                     <div class="search">
                         <div class="search-container">
@@ -47,14 +48,14 @@
                     </div>
                     <div class="nb__right">
                         <img
-                            src="./images/icons/restart.svg"
-                            alt="Перезагрузка"
-                            title="Обновить"
-                        />
-                        <img
                             src="./images/icons/list.svg"
                             alt="Список"
                             title="Список"
+                        />
+                        <img
+                            src="./images/icons/account.svg"
+                            alt="Аккаунт"
+                            title="Аккаунт"
                         />
                         <img
                             src="./images/icons/settings.svg"
@@ -64,19 +65,45 @@
                     </div>
                 </div>
 
-                
-
                 <div class="page-wrapper">
                     <!--! Боковое меню -->
-                <div class="menu__left-items">
-                    <ul>
-                        <li><a href="#!">Заметки</a></li>
-                        <li><a href="#!">Важно</a></li>
-                        <li><a href="#!">Запланировано</a></li>
-                        <li><a href="#!">Корзина</a></li>
-                    </ul>
-                </div>
-                <!--! Боковое меню -->
+                    <div class="menu__left-items">
+                        <ul>
+                            <li>
+                                <a href="#!"
+                                    ><img
+                                        src="./images/icons/notes-icon.svg"
+                                        alt="Заметки"
+                                    />Заметки</a
+                                >
+                            </li>
+                            <li>
+                                <a href="#!"
+                                    ><img
+                                        src="./images/icons/important-icon.svg"
+                                        alt="Важно"
+                                    />Важно</a
+                                >
+                            </li>
+                            <li>
+                                <a href="#!"
+                                    ><img
+                                        src="./images/icons/planned-icon.svg"
+                                        alt="Запланировано"
+                                    />Запланировано</a
+                                >
+                            </li>
+                            <li>
+                                <a href="#!"
+                                    ><img
+                                        src="./images/icons/trash-icon.svg"
+                                        alt="Корзина"
+                                    />Корзина</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <!--! Боковое меню -->
                     <div class="create-new__list">
                         <span>+</span>
                         <p>Создать заметку</p>
