@@ -6,14 +6,15 @@ body {
 
 /* ! COLORS */
 :root {
-    --text-color-1: #000;
+    --text-color-1: #915a3c;
     --text-color-2: #fff;
     --bg-color-1: #fff;
-    --bg-color-2: #000;
+    --bg-color-2: #915a3c;
     --bg-color-3: #f9f9f9;
     --bg-color-4: #f4f4f4;
-    --bg-color-5: #e7f9ff;
-    --shadow-color-1: #9feadb;
+    --bg-color-5: #faffe1;
+    --bg-color-6: #cfb79f;
+    --shadow-color-1: #fff3e0;
 }
 /* ! COLORS */
 
@@ -50,6 +51,7 @@ body {
     & a {
         font-size: 40px;
         font-weight: 700;
+        color: var(--text-color-1);
     }
 }
 
@@ -79,7 +81,7 @@ body {
 
 .circle {
     position: absolute;
-    background-color: var(--bg-color-2);
+    background-color: var(--bg-color-6);
     width: 55px;
     height: 55px;
     border-radius: 50%;
@@ -98,7 +100,7 @@ body {
 }
 
 .search-container:hover .circle {
-    opacity: 0.1;
+    opacity: 0.3;
     transform: translate(-80%, -50%) scale(1);
 }
 
@@ -114,7 +116,8 @@ body {
 }
 
 .page-wrapper {
-    display: block;
+    display: flex;
+    align-items: center;
     position: relative;
     min-height: 100vh;
 }
@@ -132,7 +135,7 @@ body {
     cursor: pointer;
     background-color: var(--bg-color-3);
     border-radius: 30px;
-    box-shadow: 10px 10px 69px 10px var(--shadow-color-1);
+    box-shadow: 0px 0px 69px 10px var(--shadow-color-1);
     transition: all 0.3s linear;
 
     & span {
@@ -147,7 +150,7 @@ body {
 }
 
 .create-new__list:hover {
-    box-shadow: 20px 20px 69px 25px var(--shadow-color-1);
+    box-shadow: 10px 10px 69px 30px var(--shadow-color-1);
 }
 
 .new__page {
