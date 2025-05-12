@@ -5,22 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Главная страница (PWA)</title>
 
-        <!-- !Roboto Font -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap"
-            rel="stylesheet"
-        />
-
-        <link rel="stylesheet" href="css/reset.css" />
-        <link rel="stylesheet" href="css/style.css" />
-        <script src="js/app.js" defer></script>
+        <!-- !Шрифты и стили -->
+        <link rel="stylesheet" href="/public/css/reset.css" />
+        <link rel="stylesheet" href="/public/css/style.css" />
+        <script src="/public/js/app.js" defer></script>
     </head>
     <body>
-        <header class="header">
-            <div class="container">
-                <a href="notes.html" class="start">Начать</a>
-        </header>
+        <div id="app">
+            <header class="header">
+                <div class="container">
+                    <button type="submit" class="start-link">
+                        <a href="#/notes">Начать</a>
+                    </button>
+                </div>
+            </header>
+        </div>
     </body>
 </html>

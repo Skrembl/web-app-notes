@@ -4,6 +4,13 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
+/* ! Welcome page */
+.start-link {
+    display: flex;
+    margin: 0 auto;
+}
+/* ! Welcome page */
+
 /* ! COLORS */
 :root {
     --text-color-1: #915a3c;
