@@ -1,35 +1,117 @@
-//! Функция инициализации всех обработчиков событий
 function initAppListeners() {
-    //! 1. Создание новой заметки
-    const list = document.querySelector(".create-new__list");
-    const newPage = document.querySelector(".new__page");
-    if (list && newPage) {
-        list.addEventListener("click", () => {
-            list.style.display = "none";
-            newPage.style.display = "block";
+    initMenuHandlers();
+    initSearchHandlers();
+    initRightIcons();
+    initDynamicContent();
+}
+
+//! Обработчики меню
+function initMenuHandlers() {
+    const menuLeft = document.getElementById("menu-left");
+    const menuItems = document.querySelector(".menu__left-items");
+    const menuState = localStorage.getItem("menuOpen") === "true";
+
+    if (menuLeft && menuItems) {
+        menuItems.classList.toggle("slide", menuState);
+        adjustContentPosition(menuState);
+
+        menuLeft.addEventListener("click", () => {
+            const isOpen = menuItems.classList.toggle("slide");
+            localStorage.setItem("menuOpen", isOpen);
+            adjustContentPosition(isOpen);
         });
     }
 
-    //! 2. Поиск
+    document.querySelectorAll(".menu__left-items a").forEach((link) => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            setActiveMenuItem(this);
+            router.navigateTo(this.getAttribute("href"));
+        });
+    });
+}
+
+//! 4. Плавное появление бокового меню и смещение контента
+function initMenuHandlers() {
+    const menuLeft = document.getElementById("menu-left");
+    const menuItems = document.querySelector(".menu__left-items");
+    const menuState = localStorage.getItem("menuOpen") === "true";
+
+    if (menuLeft && menuItems) {
+        menuItems.classList.toggle("slide", menuState);
+        adjustContentPosition(menuState);
+
+        menuLeft.addEventListener("click", () => {
+            const isOpen = !menuItems.classList.contains("slide");
+            menuItems.classList.toggle("slide", isOpen);
+            localStorage.setItem("menuOpen", isOpen);
+            adjustContentPosition(isOpen);
+        });
+    }
+
+    document.querySelectorAll(".menu__left-items a").forEach((link) => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            setActiveMenuItem(this);
+            router.navigateTo(this.getAttribute("href"));
+        });
+    });
+}
+
+//! Корректировка позиции контента
+const POSITION_CONFIG = {
+    ".create-new__list": {
+        open: "calc(50% + 250px)",
+        closed: "50%",
+    },
+    ".notes__days": {
+        open: "calc(20% + 150px)",
+        closed: "0%",
+    },
+};
+
+function adjustContentPosition(isOpen) {
+    Object.entries(POSITION_CONFIG).forEach(([selector, positions]) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.style.left = isOpen ? positions.open : positions.closed;
+        }
+    });
+}
+
+function setActiveMenuItem(clickedLink) {
+    document.querySelectorAll(".menu__left-items li").forEach((li) => {
+        li.classList.remove("active");
+    });
+    clickedLink.parentElement.classList.add("active");
+}
+
+//! Обработчики поиска
+function initSearchHandlers() {
     const searchInput = document.querySelector(".search__input");
     const searchBlock = document.querySelector(".search");
+
     if (searchInput && searchBlock) {
         searchInput.addEventListener("input", (e) => {
             console.log("Поиск:", e.target.value.toLowerCase());
         });
+
         searchInput.addEventListener("focus", () => {
             searchBlock.classList.add("search--active");
             searchBlock.style.boxShadow =
                 "0px 0px 0px 0px var(--shadow-color-1)";
         });
+
         searchInput.addEventListener("blur", () => {
             searchBlock.classList.remove("search--active");
             searchBlock.style.boxShadow =
                 "0px 0px 30px 10px var(--shadow-color-1)";
         });
     }
+}
 
-    //! 3. Иконки справа (Список, Настройки, Аккаунт)
+//! Обработчики правых иконок
+function initRightIcons() {
     document.querySelectorAll(".nb__right img").forEach((icon) => {
         icon.addEventListener("click", function () {
             switch (this.alt) {
@@ -45,46 +127,21 @@ function initAppListeners() {
             }
         });
     });
-
-    //! 4. Плавное появление бокового меню
-    const menuLeft = document.getElementById("menu-left");
-    const leftItems = document.querySelector(".menu__left-items");
-    const createNewList = document.querySelector(".create-new__list");
-    if (menuLeft && leftItems && createNewList) {
-        menuLeft.addEventListener("click", () => {
-            const isOpen = leftItems.classList.toggle("slide");
-            createNewList.style.left = isOpen ? "calc(50% + 250px)" : "50%";
-
-            localStorage.setItem("menuOpen", isOpen ? "true" : "false");
-        });
-
-        const menuWasOpen = localStorage.getItem("menuOpen") === "true";
-        if (menuWasOpen) {
-            leftItems.classList.add("slide");
-            createNewList.style.left = "calc(50% + 250px)";
-        } else {
-            leftItems.classList.remove("slide");
-            createNewList.style.left = "50%";
-        }
-    }
-
-    //! 5. Активный пункт меню слева
-    document.querySelectorAll(".menu__left-items a").forEach((link) => {
-        link.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.querySelectorAll(".menu__left-items li").forEach((li) => {
-                li.classList.remove("active");
-            });
-            this.parentElement.classList.add("active");
-        });
-    });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    initAppListeners();
-});
+//! Инициализация динамического контента
+function initDynamicContent() {
+    const newNoteBtn = document.querySelector(".create-new__list");
+    const newNotePage = document.querySelector(".new__page");
 
-//! Роутер для SPA
+    if (newNoteBtn && newNotePage) {
+        newNoteBtn.addEventListener("click", () => {
+            newNoteBtn.style.display = "none";
+            newNotePage.style.display = "block";
+        });
+    }
+}
+
 class Router {
     constructor(routes) {
         this.routes = routes;
@@ -105,11 +162,10 @@ class Router {
     }
 
     async handleRoute() {
-        const path = window.location.hash.substring(1);
+        const path = window.location.hash.substring(1) || "/notes";
 
-        if (!path || path === "/") {
-            this.showInitialContent();
-            initAppListeners();
+        if (path === "/") {
+            this.navigateTo("#/notes");
             return;
         }
 
@@ -123,69 +179,39 @@ class Router {
             const content = await this.loadContent(route.template);
             this.updateAppContent(content);
             initAppListeners();
-            this.initDynamicContent();
+            this.updateActiveMenu(path);
         } catch (e) {
             this.showError();
         }
     }
 
-    // showInitialContent() {
-    //     const app = document.getElementById("app");
-    //     if (app) {
-    //         app.innerHTML = `
-    //             <header class="header">
-    //                 <div class="container">
-    //                     <a href="#/notes" class="start">Начать</a>
-    //                 </div>
-    //             </header>
-    //         `;
-    //     }
-    // }
-
     async loadContent(template) {
         const response = await fetch(template);
-        if (!response.ok) throw new Error("Failed to load template");
+        if (!response.ok) throw new Error("Ошибка загрузки");
         return await response.text();
     }
 
     updateAppContent(content) {
-        const appContainer = document.getElementById("app");
-        if (appContainer) {
-            appContainer.innerHTML = content;
-        }
+        const app = document.getElementById("app");
+        if (app) app.innerHTML = content;
     }
 
     showError() {
-        const appContainer = document.getElementById("app");
-        if (appContainer) {
-            appContainer.innerHTML = `
-                <div class="error">
-                    <h2>404</h2>
-                    <p>Страница не найдена</p>
-                </div>
-            `;
-        }
+        const app = document.getElementById("app");
+        if (app)
+            app.innerHTML = `
+            <div class="error">
+                <h2>404</h2>
+                <p>Страница не найдена</p>
+            </div>
+        `;
     }
 
     navigateTo(path) {
         window.location.hash = path;
     }
 
-    initDynamicContent() {
-        const menuLinks = document.querySelectorAll(".menu__left-items a");
-        menuLinks.forEach((link) => {
-            link.addEventListener("click", (e) => {
-                e.preventDefault();
-                this.navigateTo(link.getAttribute("href"));
-                this.updateActiveMenu();
-            });
-        });
-
-        this.updateActiveMenu();
-    }
-
-    updateActiveMenu() {
-        const currentPath = window.location.hash.substring(1);
+    updateActiveMenu(currentPath) {
         document.querySelectorAll(".menu__left-items a").forEach((link) => {
             const linkPath = link.getAttribute("href").replace("#", "");
             link.parentElement.classList.toggle(
@@ -196,9 +222,14 @@ class Router {
     }
 }
 
-const router = new Router([
-    { path: "/notes", template: "/public/pages/notes.html" },
-    { path: "/important", template: "/public/pages/important.html" },
-    { path: "/planned", template: "/public/pages/planned.html" },
-    { path: "/trash", template: "/public/pages/trash.html" },
-]);
+//! Инициализация приложения
+document.addEventListener("DOMContentLoaded", () => {
+    const router = new Router([
+        { path: "/notes", template: "/public/pages/notes.html" },
+        { path: "/important", template: "/public/pages/important.html" },
+        { path: "/planned", template: "/public/pages/planned.html" },
+        { path: "/trash", template: "/public/pages/trash.html" },
+    ]);
+
+    initAppListeners();
+});

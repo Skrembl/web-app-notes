@@ -46,7 +46,7 @@
             <div class="menu__left-items">
                 <ul>
                     <li>
-                        <a href="#/notes" onclick="navigateTo('/notes')">
+                        <a href="#/notes" class="left-menu__links">
                             <img
                                 src="/public/assets/icons/notes-icon.svg"
                                 alt="Заметки"
@@ -55,10 +55,7 @@
                         </a>
                     </li>
                     <li>
-                        <a
-                            href="#/important"
-                            onclick="navigateTo('/important')"
-                        >
+                        <a href="#/important" class="left-menu__links">
                             <img
                                 src="/public/assets/icons/important-icon.svg"
                                 alt="Важно"
@@ -67,7 +64,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#/planned" onclick="navigateTo('/planned')">
+                        <a href="#/planned" class="left-menu__links">
                             <img
                                 src="/public/assets/icons/planned-icon.svg"
                                 alt="Запланировано"
@@ -76,7 +73,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#/trash" onclick="navigateTo('/trash')">
+                        <a href="#/trash" class="left-menu__links">
                             <img
                                 src="/public/assets/icons/trash-icon.svg"
                                 alt="Корзина"
@@ -87,6 +84,10 @@
                 </ul>
             </div>
             <!--! Боковое меню -->
+            <div class="notes__days">
+                <h3>Мои будни</h3>
+                <span>пн, 01.01.2000</span>
+            </div>
             <div class="create-new__list">
                 <span>+</span>
                 <p>Создать заметку</p>
