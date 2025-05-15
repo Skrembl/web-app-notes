@@ -3,6 +3,7 @@ function initAppListeners() {
     initSearchHandlers();
     initRightIcons();
     initDynamicContent();
+    initDateUpdater();
 }
 
 //! Обработчики меню
@@ -61,6 +62,18 @@ function initMenuHandlers() {
 //! Корректировка позиции контента
 const POSITION_CONFIG = {
     ".create-new__list": {
+        open: "calc(50% + 250px)",
+        closed: "50%",
+    },
+    ".important-page__info": {
+        open: "calc(50% + 250px)",
+        closed: "50%",
+    },
+    ".planned-page__info": {
+        open: "calc(50% + 250px)",
+        closed: "50%",
+    },
+    ".trash-page__info": {
         open: "calc(50% + 250px)",
         closed: "50%",
     },
@@ -145,6 +158,7 @@ function initDynamicContent() {
 class Router {
     constructor(routes) {
         this.routes = routes;
+        this.currentPath = "/notes";
         this.initRouter();
     }
 
@@ -180,6 +194,8 @@ class Router {
             this.updateAppContent(content);
             initAppListeners();
             this.updateActiveMenu(path);
+
+            setTimeout(() => initDateUpdater(), 10);
         } catch (e) {
             this.showError();
         }
@@ -208,7 +224,10 @@ class Router {
     }
 
     navigateTo(path) {
-        window.location.hash = path;
+        if (this.currentPath !== path) {
+            window.location.hash = path;
+            this.currentPath = path;
+        }
     }
 
     updateActiveMenu(currentPath) {
@@ -233,3 +252,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initAppListeners();
 });
+
+//! Установка текующей даты для страницы заметок
+function initDateUpdater() {
+    const MAX_RETRIES = 3;
+    let retries = 0;
+
+    const updateDate = () => {
+        const dateElement = document.querySelector(".notes__days span");
+
+        if (!dateElement) {
+            if (retries < MAX_RETRIES) {
+                retries++;
+                setTimeout(updateDate, 100);
+                return;
+            }
+            console.warn("Элемент даты не найден");
+            return;
+        }
+
+        const currentDate = new Date();
+        const days = ["вс", "пн", "вт", "ср", "чт", "пт", "сб"];
+        dateElement.textContent =
+            `${days[currentDate.getDay()]}, ` +
+            `${String(currentDate.getDate()).padStart(2, "0")}.` +
+            `${String(currentDate.getMonth() + 1).padStart(2, "0")}.` +
+            `${currentDate.getFullYear()}`;
+    };
+
+    updateDate();
+}
