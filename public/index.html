@@ -10,13 +10,38 @@
         <link rel="stylesheet" href="/public/css/style.css" />
         <script src="/public/js/app.js" defer></script>
     </head>
-    <body>
+    <body class="welcome__body">
         <div id="app">
-            <header class="header">
+            <header class="header-wlc">
                 <div class="container">
-                    <button type="submit" class="start-link">
-                        <a href="#/notes">Начать</a>
-                    </button>
+                    <div class="navbar">
+                        <div class="nb__left-wlc">
+                            <img
+                                src="/public/assets/icons/welcome-logo.svg"
+                                alt="Логотип"
+                                title="Логотип"
+                                id="menu-left"
+                            />
+                            <a href="#">Akim.mem</a>
+                        </div>
+
+                        <div class="nb__right">
+                            <button>
+                                <a href="#">Вход</a>
+                            </button>
+                            <button>
+                                <a href="#">Регистрация</a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="btns-wlc">
+                        <button type="submit" class="start-link">
+                            <a href="#/notes">Начать</a>
+                        </button>
+                        <button type="submit" class="docs-link">
+                            <a href="#">Документация</a>
+                        </button>
+                    </div>
                 </div>
             </header>
         </div>

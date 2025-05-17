@@ -8,19 +8,56 @@ body {
 :root {
     --text-color-1: #915a3c;
     --text-color-2: #fff;
+    --text-color-3: #8308d1;
     --bg-color-1: #fff;
     --bg-color-2: #915a3c;
     --bg-color-3: #f9f9f9;
     --bg-color-4: #f4f4f4;
     --bg-color-5: #faffe1;
     --bg-color-6: #cfb79f;
-    --bg-color-7: #fdf5c9;
+    --bg-color-7: rgba(253, 245, 201, 0.5);
     --bg-color-8: #f0fffe;
     --shadow-color-1: #fff3e0;
 }
 /* ! COLORS */
 
 /* ! Welcome page */
+.welcome__body {
+    color: var(--text-color-3);
+    background: linear-gradient(
+        150deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(253, 245, 201, 0.5) 100%
+    );
+    font-family: "Roboto", sans-serif;
+}
+
+.header-wlc {
+    max-width: 1920px;
+    min-height: 100vh;
+
+    & a {
+        color: var(--text-color-3);
+    }
+}
+
+.nb__left-wlc {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    & img {
+        margin: -20px 20px 0 0;
+        cursor: pointer;
+    }
+
+    & a {
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--text-color-3);
+    }
+}
+
 .start-link {
     display: flex;
     margin: 0 auto;
@@ -259,7 +296,7 @@ body {
     border-radius: 20px;
 
     & p {
-        font-size: 36px;
+        font-size: 24px;
         margin: 0;
     }
 }
@@ -280,7 +317,7 @@ body {
     border-radius: 20px;
 
     & p {
-        font-size: 36px;
+        font-size: 24px;
         margin: 0;
     }
 }
@@ -301,7 +338,7 @@ body {
     border-radius: 20px;
 
     & p {
-        font-size: 36px;
+        font-size: 24px;
         margin: 0;
     }
 }

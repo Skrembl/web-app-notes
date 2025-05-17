@@ -158,7 +158,7 @@ function initDynamicContent() {
 class Router {
     constructor(routes) {
         this.routes = routes;
-        this.currentPath = "/notes";
+        this.currentPath = window.location.hash.substring(1) || "/";
         this.initRouter();
     }
 
@@ -176,13 +176,7 @@ class Router {
     }
 
     async handleRoute() {
-        const path = window.location.hash.substring(1) || "/notes";
-
-        if (path === "/") {
-            this.navigateTo("#/notes");
-            return;
-        }
-
+        const path = window.location.hash.substring(1) || "/";
         const route = this.routes.find((r) => r.path === path);
         if (!route) {
             this.showError();
@@ -244,6 +238,7 @@ class Router {
 //! Инициализация приложения
 document.addEventListener("DOMContentLoaded", () => {
     const router = new Router([
+        { path: "/", template: "/public/index.html" },
         { path: "/notes", template: "/public/pages/notes.html" },
         { path: "/important", template: "/public/pages/important.html" },
         { path: "/planned", template: "/public/pages/planned.html" },
