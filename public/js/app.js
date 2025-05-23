@@ -10,43 +10,27 @@ function initAppListeners() {
 function initMenuHandlers() {
     const menuLeft = document.getElementById("menu-left");
     const menuItems = document.querySelector(".menu__left-items");
+    const menuContainer = document.querySelector(".menu-container");
     const menuState = localStorage.getItem("menuOpen") === "true";
 
     if (menuLeft && menuItems) {
         menuItems.classList.toggle("slide", menuState);
         adjustContentPosition(menuState);
 
-        menuLeft.addEventListener("click", () => {
-            const isOpen = menuItems.classList.toggle("slide");
-            localStorage.setItem("menuOpen", isOpen);
-            adjustContentPosition(isOpen);
-        });
-    }
-
-    document.querySelectorAll(".menu__left-items a").forEach((link) => {
-        link.addEventListener("click", function (e) {
-            e.preventDefault();
-            setActiveMenuItem(this);
-            router.navigateTo(this.getAttribute("href"));
-        });
-    });
-}
-
-//! 4. Плавное появление бокового меню и смещение контента
-function initMenuHandlers() {
-    const menuLeft = document.getElementById("menu-left");
-    const menuItems = document.querySelector(".menu__left-items");
-    const menuState = localStorage.getItem("menuOpen") === "true";
-
-    if (menuLeft && menuItems) {
-        menuItems.classList.toggle("slide", menuState);
-        adjustContentPosition(menuState);
+        if (menuContainer) {
+            menuContainer.classList.toggle("active", menuState);
+        }
 
         menuLeft.addEventListener("click", () => {
             const isOpen = !menuItems.classList.contains("slide");
+
             menuItems.classList.toggle("slide", isOpen);
             localStorage.setItem("menuOpen", isOpen);
             adjustContentPosition(isOpen);
+
+            if (menuContainer) {
+                menuContainer.classList.toggle("active", isOpen);
+            }
         });
     }
 
@@ -54,7 +38,17 @@ function initMenuHandlers() {
         link.addEventListener("click", function (e) {
             e.preventDefault();
             setActiveMenuItem(this);
-            router.navigateTo(this.getAttribute("href"));
+            if (
+                typeof router !== "undefined" &&
+                typeof router.navigateTo === "function"
+            ) {
+                router.navigateTo(this.getAttribute("href"));
+            } else {
+                window.location.hash = this.getAttribute("href");
+                console.warn(
+                    "router не определён, переход по hash выполнен вручную."
+                );
+            }
         });
     });
 }
@@ -125,6 +119,10 @@ function initSearchHandlers() {
 
 //! Обработчики правых иконок
 function initRightIcons() {
+    const Grid = document.getElementById("grid");
+    const List = document.getElementById("list");
+    const Account = document.getElementById("account");
+    const Settings = document.getElementById("settings");
     document.querySelectorAll(".nb__right img").forEach((icon) => {
         icon.addEventListener("click", function () {
             switch (this.alt) {
@@ -165,14 +163,17 @@ class Router {
     initRouter() {
         window.addEventListener("hashchange", () => this.handleRoute());
         window.addEventListener("load", () => this.handleRoute());
-
-        document.addEventListener("click", (e) => {
-            const link = e.target.closest('a[href^="#"]');
-            if (link) {
-                e.preventDefault();
-                this.navigateTo(link.getAttribute("href"));
-            }
-        });
+        document.addEventListener(
+            "click",
+            (e) => {
+                const link = e.target.closest('a[href^="#"]');
+                if (link) {
+                    e.preventDefault();
+                    this.navigateTo(link.getAttribute("href"));
+                }
+            },
+            { capture: true }
+        );
     }
 
     async handleRoute() {
@@ -218,10 +219,8 @@ class Router {
     }
 
     navigateTo(path) {
-        if (this.currentPath !== path) {
-            window.location.hash = path;
-            this.currentPath = path;
-        }
+        window.location.hash = path;
+        this.currentPath = path;
     }
 
     updateActiveMenu(currentPath) {
@@ -236,8 +235,10 @@ class Router {
 }
 
 //! Инициализация приложения
+let router;
+
 document.addEventListener("DOMContentLoaded", () => {
-    const router = new Router([
+    router = new Router([
         { path: "/", template: "/public/index.html" },
         { path: "/notes", template: "/public/pages/notes.html" },
         { path: "/important", template: "/public/pages/important.html" },
