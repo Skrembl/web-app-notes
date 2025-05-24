@@ -6,6 +6,7 @@ body {
     color: var(--text-color-1);
     background-color: var(--bg-color-1);
     font-family: "Roboto", sans-serif;
+    user-select: none;
 }
 
 /* ! COLORS */
@@ -143,7 +144,7 @@ body {
 .docs-link {
     position: relative;
     z-index: 1000;
-    padding: 12px 32px;
+    padding: 14px 32px;
     border-radius: 16px;
     font-weight: 500;
     font-size: 18px;
@@ -471,7 +472,7 @@ body {
 
     & p {
         margin: 0;
-        font-size: 36px;
+        font-size: 32px;
         font-weight: 500;
     }
 }
@@ -482,62 +483,65 @@ body {
 
 .important-page__info {
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 400px;
+    text-align: center;
     transition: left 0.5s ease-in-out;
-    width: 450px;
-    height: 250px;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--bg-color-3);
     border-radius: 20px;
 
+    & img {
+        width: 350px;
+    }
+
     & p {
-        font-size: 24px;
-        margin: 0;
+        font-size: 32px;
+        font-weight: 500;
+        margin-top: -30px;
     }
 }
 
 .planned-page__info {
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 420px;
+    text-align: center;
     transition: left 0.5s ease-in-out;
-    width: 450px;
-    height: 250px;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    background-color: var(--bg-color-3);
     border-radius: 20px;
 
+    & img {
+        width: 350px;
+    }
+
     & p {
-        font-size: 24px;
-        margin: 0;
+        font-size: 32px;
+        font-weight: 500;
+        margin-top: -50px;
     }
 }
 
 .trash-page__info {
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 420px;
+    text-align: center;
     transition: left 0.5s ease-in-out;
-    width: 450px;
-    height: 250px;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    background-color: var(--bg-color-3);
     border-radius: 20px;
 
+    & img {
+        width: 350px;
+    }
+
     & p {
-        font-size: 24px;
-        margin: 0;
+        font-size: 32px;
+        font-weight: 500;
+        margin-top: -30px;
     }
 }

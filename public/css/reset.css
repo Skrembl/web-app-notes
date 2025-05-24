@@ -52,6 +52,7 @@ ul li {
 
 img {
     vertical-align: top;
+    -webkit-user-drag: none;
 }
 
 img,
