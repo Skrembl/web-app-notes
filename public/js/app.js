@@ -127,7 +127,12 @@ function initRightIcons() {
         icon.addEventListener("click", function () {
             switch (this.alt) {
                 case "Список":
-                    console.log("Показать список заметок");
+                    Grid.style.display = "block";
+                    List.style.display = "none";
+                    break;
+                case "Сетка":
+                    List.style.display = "block";
+                    Grid.style.display = "none";
                     break;
                 case "Настройки":
                     console.log("Открыть настройки");
