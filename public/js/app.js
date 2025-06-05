@@ -148,12 +148,12 @@ function initRightIcons() {
 //! Инициализация динамического контента
 function initDynamicContent() {
     const newNoteBtn = document.querySelector(".create-new__list");
-    const newNotePage = document.querySelector(".new__page");
+    // const newNotePage = document.querySelector(".new__page");
 
     if (newNoteBtn) {
         newNoteBtn.addEventListener("click", () => {
             // newNoteBtn.style.display = "none";
-            newNotePage.style.display = "block";
+            // newNotePage.style.display = "block";
         });
     }
 }
@@ -302,6 +302,7 @@ function deleteNote(noteId) {
 
 displayNotes();
 
+//! Роутер
 class Router {
     constructor(routes) {
         this.routes = routes;
