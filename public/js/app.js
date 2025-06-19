@@ -164,7 +164,7 @@ function popup() {
 
     popupContainer.innerHTML = `
     <div id="popupContainer">
-        <input type="text" placeholder="Название" id="note-title">
+        <input type="text" placeholder=" Введите название" id="note-title">
         <textarea id="note-text" placeholder="Заметка..."></textarea>
         <div id="btn-container">
             <button id="submitBtn" onclick="createNote()">Создать</button>
@@ -173,6 +173,7 @@ function popup() {
     </div>
     `;
     document.body.appendChild(popupContainer);
+    document.getElementById("note-title").focus();
 }
 
 //! Закрытие заметки
@@ -186,10 +187,13 @@ function closePopup() {
 //! Созданная заметка
 function createNote() {
     const popupContainer = document.getElementById("popupContainer");
+    const noteTitle = document.getElementById("note-title").value;
     const noteText = document.getElementById("note-text").value;
-    if (noteText.trim() !== "") {
+
+    if (noteText.trim() !== "" || noteTitle.trim() !== "") {
         const note = {
             id: new Date().getTime(),
+            title: noteTitle,
             text: noteText,
         };
 
@@ -221,10 +225,12 @@ function displayNotes() {
     notes.forEach((note) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
+        <div class="note-title">${note.title || "Без названия"}</div>
         <div class="note-text">${note.text}</div>
         <div id="noteBtns-container">
-            <button id="editBtn" onclick="editNote(${note.id})"><i class="fa-solid fa-pen"></i></button>
-            <button id="deleteBtn" onclick="deleteNote(${note.id})"><i class="fa-solid fa-trash"></i></button>
+            <button id="editBtn" onclick="editNote(${note.id})"><img src="./assets/icons/edit-note.svg" alt="img"></button>
+            <button id="deleteBtn" onclick="deleteNote(${note.id})"><img src="./assets/icons/delete-note.svg" alt="img"></button>
+            <button id="pinBtn" onclick="pinNote(${note.id})"><img src="./assets/icons/pin-note.svg" alt="img"></button>
         </div>
         `;
         notesList.appendChild(listItem);
@@ -240,8 +246,8 @@ function editNote(noteId) {
 
     editingPopup.innerHTML = `
     <div id="editing-container" data-note-id="${noteId}">
-        <h1>Редактировать заметку</h1>
-        <textarea id="note-text">${noteText}</textarea>
+        <input type="text" id="edit-note-title" value="${noteToEdit.title || ""}" placeholder="Название">
+        <textarea id="edit-note-text">${noteToEdit.text}</textarea>
         <div id="btn-container">
             <button id="submitBtn" onclick="updateNote()">Сохранить</button>
             <button id="closeBtn" onclick="closeEditPopup()">Отмена</button>
@@ -261,16 +267,21 @@ function closeEditPopup() {
 }
 
 function updateNote() {
-    const noteText = document.getElementById("note-text").value.trim();
     const editingPopup = document.getElementById("editing-container");
+    const title = document.getElementById("edit-note-title").value;
+    const noteText = document.getElementById("edit-note-text").value.trim();
 
-    if (noteText !== "") {
+    if (noteText !== "" || title.trim() !== "") {
         const noteId = editingPopup.getAttribute("data-note-id");
         let notes = JSON.parse(localStorage.getItem("notes")) || [];
 
         const updatedNotes = notes.map((note) => {
             if (note.id == noteId) {
-                return { id: note.id, text: noteText };
+                return {
+                    id: note.id,
+                    title: title,
+                    text: noteText,
+                };
             }
             return note;
         });
