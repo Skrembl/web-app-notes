@@ -164,8 +164,8 @@ function popup() {
 
     popupContainer.innerHTML = `
     <div id="popupContainer">
-        <h1>Новая заметка</h1>
-        <textarea id="note-text" placeholder="Введите свой текст..."></textarea>
+        <input type="text" placeholder="Название" id="note-title">
+        <textarea id="note-text" placeholder="Заметка..."></textarea>
         <div id="btn-container">
             <button id="submitBtn" onclick="createNote()">Создать</button>
             <button id="closeBtn" onclick="closePopup()">Закрыть</button>
@@ -221,7 +221,7 @@ function displayNotes() {
     notes.forEach((note) => {
         const listItem = document.createElement("li");
         listItem.innerHTML = `
-        <span>${note.text}</span>
+        <div class="note-text">${note.text}</div>
         <div id="noteBtns-container">
             <button id="editBtn" onclick="editNote(${note.id})"><i class="fa-solid fa-pen"></i></button>
             <button id="deleteBtn" onclick="deleteNote(${note.id})"><i class="fa-solid fa-trash"></i></button>
@@ -240,10 +240,10 @@ function editNote(noteId) {
 
     editingPopup.innerHTML = `
     <div id="editing-container" data-note-id="${noteId}">
-        <h1>Edit Note</h1>
+        <h1>Редактировать заметку</h1>
         <textarea id="note-text">${noteText}</textarea>
         <div id="btn-container">
-            <button id="submitBtn" onclick="updateNote()">Готово</button>
+            <button id="submitBtn" onclick="updateNote()">Сохранить</button>
             <button id="closeBtn" onclick="closeEditPopup()">Отмена</button>
         </div>
     </div>
@@ -280,10 +280,6 @@ function updateNote() {
         editingPopup.remove();
 
         displayNotes();
-
-        if (window.location.hash === "#/notes") {
-            displayNotes();
-        }
     }
 }
 

@@ -14,6 +14,7 @@ body {
     --text-color-1: #915a3c;
     --text-color-2: #fff;
     --text-color-3: #8308d1;
+    --text-color-4: #000;
     --bg-color-1: #fff;
     --bg-color-2: #915a3c;
     --bg-color-3: #f9f9f9;
@@ -23,9 +24,13 @@ body {
     --bg-color-7: rgba(253, 245, 201, 0.5);
     --bg-color-8: #f0fffe;
     --bg-color-9: #8308d1;
-    --bg-color-10: #fff4bd;
+    --bg-color-10: #fff4d9;
+    --bg-color-11: #fdf5c9;
+    --bg-color-12: #c6c6c6;
     --shadow-color-1: #fff3e0;
     --shadow-color-2: #fedfff;
+    --shadow-color-3: #000;
+    --shadow-color-4: rgba(255, 237, 166, 0.25);
     --shadow-figure-1: rgba(20, 185, 116, 0.5);
     --shadow-figure-2: rgba(93, 80, 239, 1);
     --shadow-figure-3: rgba(241, 117, 2, 0.4);
@@ -588,25 +593,67 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: 170px;
+    height: auto;
+    min-height: 170px;
     width: 285px;
     border-radius: 10px;
-    /* box-shadow:
-        9px 9px 18px #b3b3b3,
-        -9px -9px 18px #ffffff; */
+    box-shadow:
+        0px 0px 5px #c1bb9e,
+        0px 0px 5px #ffffff;
 }
 
-#notes-list li span {
+.note-text {
+    width: 100%;
     font-size: 18px;
     flex-grow: 1;
-    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
     overflow-y: hidden;
+    display: block;
+    padding: 0 0 5px 0;
+}
+
+#note-title {
+    padding: 13px 130px;
+    margin-bottom: 50px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 10px;
+    background-color: var(--bg-color-1);
+
+    &::placeholder {
+        color: var(--text-color-4);
+    }
+}
+
+#editing-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1300px;
+    height: 650px;
+    background-color: var(--bg-color-10);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#editing-container h1 {
+    font-size: 24px;
+    margin-bottom: 50px;
 }
 
 #editBtn,
 #deleteBtn {
-    background-color: #a6623b;
-    color: #fff;
+    background-color: var(--bg-color-2);
+    color: var(--text-color-2);
     border: none;
     padding: 5px 10px;
     margin: 0 5px;
@@ -617,21 +664,21 @@ body {
 }
 
 #editBtn {
-    background-color: gainsboro;
+    background-color: var(--bg-color-12);
 }
 
 #deleteBtn:hover {
-    background-color: #e2be70;
+    background-color: var(--bg-color-6);
 }
 
 #editBtn:hover {
-    background-color: gray;
+    background-color: var(--bg-color-4);
 }
 /* ! Созданная заметка */
 
 /* ! Функционал заметки */
 .blankDiv {
-    background-color: #fff;
+    background-color: var(--bg-color-1);
     border: none;
     padding: 20px;
     border-radius: 8px;
@@ -648,11 +695,8 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 900px;
-    height: 600px;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 1300px;
+    height: 650px;
     padding: 20px;
     border-radius: 8px;
     display: flex;
@@ -660,16 +704,33 @@ body {
     text-align: center;
     align-items: center;
     justify-content: center;
+    background-color: var(--bg-color-10);
+    box-shadow: 0px 0px 30px 5px var(--shadow-color-4);
+}
+
+#popupContainer h1 {
+    font-size: 24px;
+    margin-bottom: 50px;
 }
 
 textarea {
-    width: 300px;
-    height: 200px;
-    margin: 10px 0;
+    width: 640px;
+    height: 330px;
+    margin: 10px 0px 75px 0px;
     padding: 10px;
     box-sizing: border-box;
-    border-radius: 4px;
-    border: 2px solid #92532e;
+    border-radius: 10px;
+    background-color: var(--bg-color-1);
+    box-shadow: 0px 0px 4px 0px var(--shadow-color-3);
+
+    &::placeholder {
+        color: var(--text-color-4);
+    }
+
+    &:focus {
+        outline: none;
+        border: 2px solid #92532e;
+    }
 }
 
 #btn-container {
@@ -678,19 +739,23 @@ textarea {
 
 #submitBtn,
 #closeBtn {
-    width: 100px;
-    background-color: #e2be70;
-    color: #fff;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
     margin: 10px;
+    margin-right: 52px;
+    padding: 13px 37.5px;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--bg-color-2);
+    color: var(--text-color-2);
 }
 
 #closeBtn {
-    background-color: gainsboro;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color-2);
+    background-color: var(--bg-color-2);
 }
 /* ! Функционал заметки */
 
