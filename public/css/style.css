@@ -29,7 +29,7 @@ body {
     --bg-color-11: #fdf5c9;
     --bg-color-12: #c6c6c6;
     --bg-color-13: #743e21;
-    --shadow-color-1: #fff3e0;
+    --shadow-color-1: rgb(255, 227, 179, 0.7);
     --shadow-color-2: #fedfff;
     --shadow-color-3: #000;
     --shadow-color-4: rgba(255, 237, 166, 0.25);
@@ -495,7 +495,7 @@ body {
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 15px 60px 60px 60px;
+    padding: 30px 60px 60px 60px;
     cursor: pointer;
     background-color: var(--bg-color-3);
     border-radius: 20px;
@@ -525,28 +525,22 @@ body {
     display: flex;
     margin: 0 auto;
     margin-top: 50px;
-    /* background-color: rgb(240, 235, 151); */
 }
 
-/* .mini-create__nl {
-    position: absolute;
+.mini-create__nl {
     display: grid;
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 400px;
+    width: 300px;
     height: 200px;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 15px 60px 60px 60px;
+    margin: 10px;
+    padding: 30px 50px 46px 50px;
     cursor: pointer;
-    background-color: var(--bg-color-3);
+    background-color: transparent;
+    border: 1px solid var(--bg-color-2);
     border-radius: 20px;
-    box-shadow: 0px 0px 69px 10px var(--shadow-color-1);
-    transition:
-        left 0.5s ease-in-out,
-        box-shadow 0.3s ease-in;
+    transition: all 0.3s ease-in;
 
     & span {
         font-size: 84px;
@@ -558,11 +552,12 @@ body {
         font-size: 24px;
         font-weight: 500;
     }
-}
 
-.mini-create__nl:hover {
-    box-shadow: 10px 10px 69px 30px var(--shadow-color-1);
-} */
+    &:hover {
+        background-color: var(--bg-color-2);
+        color: var(--text-color-2);
+    }
+}
 /*! Расположение всех заметок */
 
 /*! Созданная заметка */
@@ -571,18 +566,18 @@ body {
 }
 
 #notes-list {
+    position: absolute;
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
     align-items: center;
+    transition: left 0.5s ease-in-out;
 }
 
 #notes-list span {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-wrap: wrap;
     text-align: center;
 }
 
@@ -593,11 +588,10 @@ body {
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     justify-content: space-between;
     height: auto;
-    min-height: 170px;
-    width: 285px;
+    width: 300px;
+    height: 200px;
     border-radius: 10px;
     box-shadow:
         0px 0px 5px #c1bb9e,
@@ -605,19 +599,24 @@ body {
 }
 
 .note-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    overflow: hidden;
+    overflow-wrap: anywhere;
     height: 30px;
     width: 100%;
     font-size: 18px;
     flex-grow: 1;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    overflow-y: hidden;
-    display: block;
     padding: 0 0 5px 0;
     color: var(--text-color-5);
 }
 
 .note-title {
+    display: flex;
+    justify-content: space-between;
     height: 30px;
     width: 100%;
     font-size: 20px;
@@ -625,8 +624,7 @@ body {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
     overflow-y: hidden;
-    display: block;
-    padding: 0 0 5px 0;
+    padding: 0 10px 5px 0;
     color: var(--text-color-5);
 }
 
@@ -642,6 +640,7 @@ body {
 
     &::placeholder {
         color: var(--text-color-4);
+        opacity: 0.5;
     }
 }
 
@@ -671,6 +670,7 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 52px;
+    padding-top: 10px;
 }
 
 #editBtn,
@@ -724,6 +724,16 @@ body {
     background-color: var(--bg-color-2);
     opacity: 1;
 }
+
+#pinBtn:hover {
+    background-color: var(--bg-color-2);
+    opacity: 1;
+}
+
+.note-resize__one {
+    width: 15px;
+    cursor: pointer;
+}
 /* ! Созданная заметка */
 
 /* ! Функционал заметки */
@@ -775,6 +785,7 @@ textarea {
 
     &::placeholder {
         color: var(--text-color-4);
+        opacity: 0.5;
     }
 
     &:focus {

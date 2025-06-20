@@ -59,6 +59,10 @@ const POSITION_CONFIG = {
         open: "calc(50% + 250px)",
         closed: "50%",
     },
+    "#notes-list": {
+        open: "calc(25% + 250px)",
+        closed: "10%",
+    },
     ".important-page__info": {
         open: "calc(50% + 250px)",
         closed: "50%",
@@ -148,7 +152,6 @@ function initRightIcons() {
 //! Инициализация динамического контента
 function initDynamicContent() {
     const newNoteBtn = document.querySelector(".create-new__list");
-    // const newNotePage = document.querySelector(".new__page");
 
     if (newNoteBtn) {
         newNoteBtn.addEventListener("click", () => {
@@ -161,17 +164,16 @@ function initDynamicContent() {
 //! Создание заметки
 function popup() {
     const popupContainer = document.createElement("div");
+    popupContainer.id = "popupContainer";
 
     popupContainer.innerHTML = `
-    <div id="popupContainer">
-        <input type="text" placeholder=" Введите название" id="note-title">
-        <textarea id="note-text" placeholder="Заметка..."></textarea>
-        <div id="btn-container">
-            <button id="submitBtn" onclick="createNote()">Создать</button>
-            <button id="closeBtn" onclick="closePopup()">Закрыть</button>
-        </div>
+    <input type="text" placeholder="Введите название" id="note-title">
+    <textarea id="note-text" placeholder="Заметка..."></textarea>
+    <div id="btn-container">
+        <button id="submitBtn" onclick="createNote()">Создать</button>
+        <button id="closeBtn" onclick="closePopup()">Закрыть</button>
     </div>
-    `;
+`;
     document.body.appendChild(popupContainer);
     document.getElementById("note-title").focus();
 }
@@ -205,7 +207,6 @@ function createNote() {
         document.getElementById("note-text").value = "";
 
         popupContainer.remove();
-        displayNotes();
 
         if (window.location.hash === "#/notes") {
             displayNotes();
@@ -216,25 +217,43 @@ function createNote() {
 //! Показ заметок
 function displayNotes() {
     const notesList = document.getElementById("notes-list");
-    if (!notesList) return;
+    const addNoteMain = document.getElementById("addNoteDiv");
+    const addNoteMini = document.getElementById("addNoteMini");
+
+    if (!notesList || !addNoteMain || !addNoteMini) return;
 
     notesList.innerHTML = "";
 
     const notes = JSON.parse(localStorage.getItem("notes")) || [];
 
+    if (notes.length === 0) {
+        addNoteMain.style.display = "grid";
+        addNoteMini.style.display = "none";
+    } else {
+        addNoteMain.style.display = "none";
+        addNoteMini.style.display = "grid";
+    }
+
     notes.forEach((note) => {
         const listItem = document.createElement("li");
+        listItem.classList.add("note-item");
+
         listItem.innerHTML = `
-        <div class="note-title">${note.title || "Без названия"}</div>
-        <div class="note-text">${note.text}</div>
-        <div id="noteBtns-container">
-            <button id="editBtn" onclick="editNote(${note.id})"><img src="./assets/icons/edit-note.svg" alt="img"></button>
-            <button id="deleteBtn" onclick="deleteNote(${note.id})"><img src="./assets/icons/delete-note.svg" alt="img"></button>
-            <button id="pinBtn" onclick="pinNote(${note.id})"><img src="./assets/icons/pin-note.svg" alt="img"></button>
-        </div>
+            <div class="note-title">${note.title || "Без названия"}
+                <img class="note-resize__one" src="./assets/icons/resize-more.svg" alt="img">
+            </div>
+            <div class="note-text">${note.text}</div>
+            <div id="noteBtns-container">
+                <button id="editBtn" onclick="editNote(${note.id})"><img src="./assets/icons/edit-note.svg" alt="img"></button>
+                <button id="deleteBtn" onclick="deleteNote(${note.id})"><img src="./assets/icons/delete-note.svg" alt="img"></button>
+                <button id="pinBtn" onclick="pinNote(${note.id})"><img src="./assets/icons/pin-note.svg" alt="img"></button>
+            </div>
         `;
+
         notesList.appendChild(listItem);
     });
+
+    notesList.appendChild(addNoteMini);
 }
 
 //! Редактирование заметок

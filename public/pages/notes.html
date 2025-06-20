@@ -129,7 +129,11 @@
                         <span></span>
                     </div>
                     <div class="content-wrapper">
-                        <div class="create-new__list" id="addNoteDiv" onclick="popup()">
+                        <div
+                            class="create-new__list"
+                            id="addNoteDiv"
+                            onclick="popup()"
+                        >
                             <span>+</span>
                             <p>Создать заметку</p>
                         </div>
@@ -137,12 +141,17 @@
                         <!--! Созданные заметки -->
                         <div class="all-notes">
                             <div id="list-container">
-                                <span id="notes-list"></span>
+                                <div id="notes-list">
+                                    <div
+                                        class="mini-create__nl"
+                                        id="addNoteMini"
+                                        onclick="popup()"
+                                    >
+                                        <span>+</span>
+                                        <p>Создать заметку</p>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- <div class="mini-create__nl" id="addNoteDiv" onclick="popup()">
-                                <span>+</span>
-                                <p>Создать заметку</p>
-                            </div> -->
                         </div>
                         <!--! Созданные заметки -->
                     </div>
