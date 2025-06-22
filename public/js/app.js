@@ -60,8 +60,8 @@ const POSITION_CONFIG = {
         closed: "50%",
     },
     "#notes-list": {
-        open: "calc(25% + 250px)",
-        closed: "10%",
+        open: "calc(7% + 250px)",
+        closed: "10.5%",
     },
     ".important-page__info": {
         open: "calc(50% + 250px)",
@@ -76,8 +76,8 @@ const POSITION_CONFIG = {
         closed: "50%",
     },
     ".notes__days": {
-        open: "calc(20% + 150px)",
-        closed: "0%",
+        open: "0",
+        closed: "1",
     },
 };
 
@@ -85,7 +85,15 @@ function adjustContentPosition(isOpen) {
     Object.entries(POSITION_CONFIG).forEach(([selector, positions]) => {
         const element = document.querySelector(selector);
         if (element) {
-            element.style.left = isOpen ? positions.open : positions.closed;
+            if (selector === ".notes__days") {
+                element.style.opacity = isOpen
+                    ? positions.open
+                    : positions.closed;
+                element.style.pointerEvents = isOpen ? "none" : "auto";
+                element.style.visibility = isOpen ? "hidden" : "visible";
+            } else {
+                element.style.left = isOpen ? positions.open : positions.closed;
+            }
         }
     });
 }
@@ -224,6 +232,13 @@ function displayNotes() {
 
     notesList.innerHTML = "";
 
+    let overlay = document.querySelector(".overlay");
+    if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.className = "overlay";
+        document.body.appendChild(overlay);
+    }
+
     const notes = JSON.parse(localStorage.getItem("notes")) || [];
 
     if (notes.length === 0) {
@@ -239,16 +254,76 @@ function displayNotes() {
         listItem.classList.add("note-item");
 
         listItem.innerHTML = `
-            <div class="note-title">${note.title || "Без названия"}
-                <img class="note-resize__one" src="./assets/icons/resize-more.svg" alt="img">
+            <div class="note-title-container">
+                <div class="note-title">${note.title || "Без названия"}</div>
+                <div class="resize-controls">
+                    <img class="note-resize__one" src="./assets/icons/resize-more.svg" alt="img">
+                    <div class="expanded-icons" style="display: none; gap: 10px;">
+                        <img src="./assets/icons/more-note.svg" alt="img">
+                        <img class="resize-less" src="./assets/icons/resize-less.svg" alt="img">
+                    </div>
+                </div>
             </div>
             <div class="note-text">${note.text}</div>
-            <div id="noteBtns-container">
-                <button id="editBtn" onclick="editNote(${note.id})"><img src="./assets/icons/edit-note.svg" alt="img"></button>
-                <button id="deleteBtn" onclick="deleteNote(${note.id})"><img src="./assets/icons/delete-note.svg" alt="img"></button>
-                <button id="pinBtn" onclick="pinNote(${note.id})"><img src="./assets/icons/pin-note.svg" alt="img"></button>
+            <div class="noteBtns-container">
+                <button class="editBtn" onclick="editNote(${note.id})"><img src="./assets/icons/edit-note.svg" alt="img"></button>
+                <button class="deleteBtn" onclick="deleteNote(${note.id})"><img src="./assets/icons/delete-note.svg" alt="img"></button>
+                <button class="pinBtn" onclick="pinNote(${note.id})"><img src="./assets/icons/pin-note.svg" alt="img"></button>
             </div>
         `;
+
+        const resizeIcon = listItem.querySelector(".note-resize__one");
+        const expandedIcons = listItem.querySelector(".expanded-icons");
+        const resizeLessIcon = listItem.querySelector(".resize-less");
+        const noteBtns = listItem.querySelector(".noteBtns-container");
+
+        resizeIcon.addEventListener("click", function () {
+            document.querySelectorAll(".note-item").forEach((item) => {
+                if (item !== listItem) {
+                    item.style.display = "none";
+                }
+            });
+
+            listItem.classList.add("expanded");
+
+            this.style.display = "none";
+            expandedIcons.style.display = "flex";
+
+            if (noteBtns) noteBtns.style.display = "none";
+
+            listItem.style.position = "absolute";
+            listItem.style.top = "0%";
+            listItem.style.left = "0%";
+            listItem.style.transform = "translate(15%, 50%)";
+            listItem.style.width = "1100px";
+            listItem.style.zIndex = "1000";
+
+            if (addNoteMini) addNoteMini.style.display = "none";
+            overlay.style.display = "block";
+        });
+
+        resizeLessIcon.addEventListener("click", function () {
+            document.querySelectorAll(".note-item").forEach((item) => {
+                item.style.display = "block";
+            });
+
+            listItem.classList.remove("expanded");
+
+            resizeIcon.style.display = "block";
+            expandedIcons.style.display = "none";
+
+            if (noteBtns) noteBtns.style.display = "flex";
+
+            listItem.style.position = "";
+            listItem.style.top = "";
+            listItem.style.left = "";
+            listItem.style.transform = "";
+            listItem.style.width = "";
+            listItem.style.zIndex = "";
+
+            if (addNoteMini) addNoteMini.style.display = "grid";
+            overlay.style.display = "none";
+        });
 
         notesList.appendChild(listItem);
     });
