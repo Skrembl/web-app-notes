@@ -324,10 +324,6 @@ body {
     transition: all 0.3s ease;
 }
 
-.search--active {
-    background-color: var(--bg-color-5);
-}
-
 .search-container {
     position: relative;
     display: inline-block;
@@ -386,8 +382,79 @@ body {
     transform: rotate(45deg);
 }
 
-#grid {
+.list-view {
+    width: 745px !important;
+}
+
+.list-view #notes-list {
+    width: 100%;
+    max-width: 750px;
+}
+
+.list-view .note-item {
+    width: 100%;
+    max-width: 750px;
+}
+
+.grid-view {
+    width: auto;
+    width: 1080px;
+}
+
+.view-icon.active {
     display: none;
+}
+
+#notes-list.changing-view .note-item,
+#notes-list.changing-view .mini-create-container {
+    transition: none !important;
+}
+
+#notes-list,
+.note-item,
+.mini-create-container {
+    transition:
+        width 0.3s ease,
+        max-width 0.3s ease,
+        transform 0.3s ease,
+        opacity 0.3s ease,
+        left 0.3s ease;
+}
+
+.mini-create-container {
+    will-change: transform, width;
+    transition:
+        transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+        width 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.mini-create-container.grid-view {
+    transform: scale(1);
+    width: 360px;
+}
+
+.mini-create-container.list-view {
+    transform: scale(1);
+    width: 100%;
+}
+
+#notes-list.grid-view {
+    display: flex;
+    width: auto;
+    margin: 0 auto;
+}
+
+#notes-list.list-view {
+    display: flex;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+.content-wrapper,
+.all-notes {
+    width: 100%;
+    max-width: 100%;
 }
 
 /* ! new page */
@@ -530,15 +597,15 @@ body {
 }
 
 .mini-create__nl {
-    display: grid;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
-    width: 300px;
-    height: 200px;
+    justify-content: center;
+    cursor: pointer;
+    width: 360px;
+    height: 220px;
     margin: 10px;
     padding: 30px 50px 46px 50px;
-    cursor: pointer;
     background-color: transparent;
     border: 1px solid var(--bg-color-2);
     border-radius: 20px;
@@ -559,6 +626,11 @@ body {
         background-color: var(--bg-color-2);
         color: var(--text-color-2);
     }
+}
+
+#notes-list.list-view .mini-create__nl {
+    width: 745px;
+    margin-bottom: 20px;
 }
 /*! Расположение всех заметок */
 
@@ -585,7 +657,8 @@ body.overlay-active > *:not(.note-item.expanded) {
 }
 /* ! Блокировка при открытой заметке */
 #list-container {
-    width: 1540px;
+    width: 100%;
+    transition: all 0.3s ease;
 }
 
 #notes-list {
@@ -608,8 +681,8 @@ body.overlay-active > *:not(.note-item.expanded) {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 300px;
-    height: 200px;
+    width: 360px;
+    height: 220px;
     margin: 10px;
     padding: 20px;
     border-radius: 8px;
@@ -636,7 +709,7 @@ body.overlay-active > *:not(.note-item.expanded) {
     width: 100%;
     font-size: 18px;
     flex-grow: 1;
-    padding: 0 0 5px 0;
+    padding: 5px 0 5px 0;
     color: var(--text-color-1);
 }
 
@@ -673,6 +746,13 @@ body.overlay-active > *:not(.note-item.expanded) {
     }
 }
 
+.no-results {
+    transform: translate(220%, 800%);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-color-1);
+}
+
 #edit-note-title {
     margin-bottom: 30px;
     font-size: 24px;
@@ -707,7 +787,7 @@ body.overlay-active > *:not(.note-item.expanded) {
     display: flex;
     justify-content: space-between;
     gap: 52px;
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
 .editBtn,
@@ -750,6 +830,11 @@ body.overlay-active > *:not(.note-item.expanded) {
     & img {
         width: 15px;
     }
+}
+
+.pinBtn.pinned {
+    background-color: var(--bg-color-2);
+    opacity: 1;
 }
 
 .deleteBtn:hover {
@@ -889,8 +974,11 @@ textarea {
 
 .note-item {
     position: relative;
-    transition: all 0.3s ease;
     width: 300px;
+    will-change: transform, width;
+    transition:
+        transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+        width 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .note-item.expanded {
@@ -901,7 +989,6 @@ textarea {
     position: relative;
     margin: 20px auto;
     padding: 30px;
-    transition: all 0.3s ease;
     pointer-events: auto;
 }
 
@@ -921,6 +1008,31 @@ textarea {
     & img {
         cursor: pointer;
     }
+}
+
+.note-item.list-view,
+.create-new__list,
+#addNoteMini {
+    transition: all 0.3s ease-in;
+}
+
+.note-item,
+.create-new__list,
+#addNoteMini {
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: width, max-width, left, transform;
+}
+
+body.list-view-menu-open .note-item.list-view {
+    width: 650px !important;
+    max-width: 650px !important;
+}
+
+body.list-view-menu-open .create-new__list,
+body.list-view-menu-open #addNoteMini {
+    width: 650px !important;
+    max-width: 650px !important;
 }
 /* ! Полное открытие заметки */
 

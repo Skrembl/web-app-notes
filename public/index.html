@@ -15,9 +15,22 @@
             href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap"
             rel="stylesheet"
         />
+        <style>
+            body {
+                opacity: 0;
+                transition: opacity 0.05s ease-in-out;
+            }
+            body.app-ready {
+                opacity: 1;
+            }
+            .page-template {
+                display: none;
+            }
+        </style>
     </head>
     <body>
-        <div id="app">
+        <div id="app"></div>
+        <div id="template-home" class="page-template">
             <header class="header-wlc">
                 <div class="container">
                     <div class="navbar">
@@ -40,12 +53,12 @@
                         </div>
                     </div>
                     <img
-                        src="./assets/images/welcome-images/object-five.png"
+                        src="/public/assets/images/welcome-images/object-five.png"
                         alt="el5"
                         class="img-obj__five"
                     />
                     <img
-                        src="./assets/images/welcome-images/platform.png"
+                        src="/public/assets/images/welcome-images/platform.png"
                         alt="platform"
                         class="img-platform"
                     />
@@ -55,26 +68,514 @@
                     </div>
 
                     <img
-                        src="./assets/images/welcome-images/object-one.png"
+                        src="/public/assets/images/welcome-images/object-one.png"
                         alt="el1"
                         class="img-obj__one"
                     />
                     <img
-                        src="./assets/images/welcome-images/object-two.png"
+                        src="/public/assets/images/welcome-images/object-two.png"
                         alt="el2"
                         class="img-obj__two"
                     />
                     <img
-                        src="./assets/images/welcome-images/object-three.png"
+                        src="/public/assets/images/welcome-images/object-three.png"
                         alt="el3"
                         class="img-obj__three"
                     />
                     <img
-                        src="./assets/images/welcome-images/object-four.png"
+                        src="/public/assets/images/welcome-images/object-four.png"
                         alt="el4"
                         class="img-obj__four"
                     />
                 </div>
+            </header>
+        </div>
+
+        <div id="template-notes" class="page-template">
+            <header class="header">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="nb__left">
+                            <div class="menu-container">
+                                <img
+                                    src="/public/assets/icons/menu.svg"
+                                    alt="Меню"
+                                    title="Меню"
+                                    id="menu-left"
+                                />
+                                <div class="circle-menu"></div>
+                            </div>
+                            <a href="#/notes">Akim.mem</a>
+                        </div>
+                        <div class="search">
+                            <div class="search-container">
+                                <div class="circle"></div>
+                                <img
+                                    src="/public/assets/icons/search.svg"
+                                    alt="Поиск"
+                                    class="search-icon"
+                                    title="Поиск"
+                                />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Поиск"
+                                class="search__input"
+                            />
+                        </div>
+                        <div class="nb__right">
+                            <img
+                                src="/public/assets/icons/grid.svg"
+                                alt="Сетка"
+                                title="Сетка"
+                                id="grid"
+                            />
+
+                            <img
+                                src="/public/assets/icons/list.svg"
+                                alt="Список"
+                                title="Список"
+                                id="list"
+                            />
+                            <img
+                                src="/public/assets/icons/account.svg"
+                                alt="Аккаунт"
+                                title="Аккаунт"
+                                id="account"
+                            />
+                            <img
+                                src="/public/assets/icons/settings.svg"
+                                alt="Настройки"
+                                title="Настройки"
+                                id="settings"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="page-wrapper">
+                        <!--! Боковое меню -->
+                        <div class="menu__left-items">
+                            <ul>
+                                <li>
+                                    <a href="#/notes" class="left-menu__links">
+                                        <img
+                                            src="/public/assets/icons/notes-icon.svg"
+                                            alt="Заметки"
+                                        />
+                                        Заметки
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#/important"
+                                        class="left-menu__links"
+                                    >
+                                        <img
+                                            src="/public/assets/icons/important-icon.svg"
+                                            alt="Важно"
+                                        />
+                                        Важно
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#/planned"
+                                        class="left-menu__links"
+                                    >
+                                        <img
+                                            src="/public/assets/icons/planned-icon.svg"
+                                            alt="Запланировано"
+                                        />
+                                        Запланировано
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#/trash" class="left-menu__links">
+                                        <img
+                                            src="/public/assets/icons/trash-icon.svg"
+                                            alt="Корзина"
+                                        />
+                                        Корзина
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--! Боковое меню -->
+                        <div class="notes__days">
+                            <h3>Мои будни</h3>
+                            <span></span>
+                        </div>
+                        <div class="content-wrapper">
+                            <div
+                                class="create-new__list"
+                                id="addNoteDiv"
+                                onclick="popup()"
+                            >
+                                <span>+</span>
+                                <p>Создать заметку</p>
+                            </div>
+
+                            <!--! Созданные заметки -->
+                            <div class="all-notes">
+                                <div id="list-container">
+                                    <div id="notes-list">
+                                        <div
+                                            class="mini-create__nl"
+                                            id="addNoteMini"
+                                            onclick="popup()"
+                                        >
+                                            <span>+</span>
+                                            <p>Создать заметку</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--! Созданные заметки -->
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <div id="template-important" class="page-template">
+            <header class="header">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="nb__left">
+                            <div class="menu-container">
+                                <img
+                                    src="/public/assets/icons/menu.svg"
+                                    alt="Меню"
+                                    title="Меню"
+                                    id="menu-left"
+                                />
+                                <div class="circle-menu"></div>
+                            </div>
+                            <a href="#/notes">Akim.mem</a>
+                        </div>
+                        <div class="search">
+                            <div class="search-container">
+                                <div class="circle"></div>
+                                <img
+                                    src="/public/assets/icons/search.svg"
+                                    alt="Поиск"
+                                    class="search-icon"
+                                    title="Поиск"
+                                />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Поиск"
+                                class="search__input"
+                            />
+                        </div>
+                        <div class="nb__right">
+                            <img
+                                src="/public/assets/icons/list.svg"
+                                alt="Список"
+                                title="Список"
+                            />
+                            <img
+                                src="/public/assets/icons/account.svg"
+                                alt="Аккаунт"
+                                title="Аккаунт"
+                            />
+                            <img
+                                src="/public/assets/icons/settings.svg"
+                                alt="Настройки"
+                                title="Настройки"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="page-wrapper">
+                        <!--! Боковое меню -->
+                        <div class="menu__left-items">
+                            <ul>
+                                <li>
+                                    <a href="#/notes" class="left-menu__links">
+                                        <img
+                                            src="/public/assets/icons/notes-icon.svg"
+                                            alt="Заметки"
+                                        />
+                                        Заметки
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#/important"
+                                        class="left-menu__links"
+                                    >
+                                        <img
+                                            src="/public/assets/icons/important-icon.svg"
+                                            alt="Важно"
+                                        />
+                                        Важно
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#/planned"
+                                        class="left-menu__links"
+                                    >
+                                        <img
+                                            src="/public/assets/icons/planned-icon.svg"
+                                            alt="Запланировано"
+                                        />
+                                        Запланировано
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#/trash" class="left-menu__links">
+                                        <img
+                                            src="/public/assets/icons/trash-icon.svg"
+                                            alt="Корзина"
+                                        />
+                                        Корзина
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--! Боковое меню -->
+                        <div class="important-page__info">
+                            <img
+                                src="/public/assets/images/important-img.png"
+                                alt="img2"
+                            />
+                            <p>Вы пока ничего не добавили</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="new__page"></div>
+            </header>
+        </div>
+
+        <div id="template-planned" class="page-template">
+            <header class="header">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="nb__left">
+                            <div class="menu-container">
+                                <img
+                                    src="/public/assets/icons/menu.svg"
+                                    alt="Меню"
+                                    title="Меню"
+                                    id="menu-left"
+                                />
+                                <div class="circle-menu"></div>
+                            </div>
+                            <a href="#/notes">Akim.mem</a>
+                        </div>
+                        <div class="search">
+                            <div class="search-container">
+                                <div class="circle"></div>
+                                <img
+                                    src="/public/assets/icons/search.svg"
+                                    alt="Поиск"
+                                    class="search-icon"
+                                    title="Поиск"
+                                />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Поиск"
+                                class="search__input"
+                            />
+                        </div>
+                        <div class="nb__right">
+                            <img
+                                src="/public/assets/icons/list.svg"
+                                alt="Список"
+                                title="Список"
+                            />
+                            <img
+                                src="/public/assets/icons/account.svg"
+                                alt="Аккаунт"
+                                title="Аккаунт"
+                            />
+                            <img
+                                src="/public/assets/icons/settings.svg"
+                                alt="Настройки"
+                                title="Настройки"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="page-wrapper">
+                        <!--! Боковое меню -->
+                        <div class="menu__left-items">
+                            <ul>
+                                <li>
+                                    <a href="#/notes" class="left-menu__links">
+                                        <img
+                                            src="/public/assets/icons/notes-icon.svg"
+                                            alt="Заметки"
+                                        />
+                                        Заметки
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#/important"
+                                        class="left-menu__links"
+                                    >
+                                        <img
+                                            src="/public/assets/icons/important-icon.svg"
+                                            alt="Важно"
+                                        />
+                                        Важно
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#/planned"
+                                        class="left-menu__links"
+                                    >
+                                        <img
+                                            src="/public/assets/icons/planned-icon.svg"
+                                            alt="Запланировано"
+                                        />
+                                        Запланировано
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#/trash" class="left-menu__links">
+                                        <img
+                                            src="/public/assets/icons/trash-icon.svg"
+                                            alt="Корзина"
+                                        />
+                                        Корзина
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--! Боковое меню -->
+                        <div class="planned-page__info">
+                            <img
+                                src="/public/assets/images/planned-img.png"
+                                alt="img3"
+                            />
+                            <p>Заметки со сроками или напоминаниями</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="new__page"></div>
+            </header>
+        </div>
+
+        <div id="template-trash" class="page-template">
+            <header class="header">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="nb__left">
+                            <div class="menu-container">
+                                <img
+                                    src="/public/assets/icons/menu.svg"
+                                    alt="Меню"
+                                    title="Меню"
+                                    id="menu-left"
+                                />
+                                <div class="circle-menu"></div>
+                            </div>
+                            <a href="#/notes">Akim.mem</a>
+                        </div>
+                        <div class="search">
+                            <div class="search-container">
+                                <div class="circle"></div>
+                                <img
+                                    src="/public/assets/icons/search.svg"
+                                    alt="Поиск"
+                                    class="search-icon"
+                                    title="Поиск"
+                                />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Поиск"
+                                class="search__input"
+                            />
+                        </div>
+                        <div class="nb__right">
+                            <img
+                                src="/public/assets/icons/list.svg"
+                                alt="Список"
+                                title="Список"
+                            />
+                            <img
+                                src="/public/assets/icons/account.svg"
+                                alt="Аккаунт"
+                                title="Аккаунт"
+                            />
+                            <img
+                                src="/public/assets/icons/settings.svg"
+                                alt="Настройки"
+                                title="Настройки"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="page-wrapper">
+                        <!--! Боковое меню -->
+                        <div class="menu__left-items">
+                            <ul>
+                                <li>
+                                    <a href="#/notes" class="left-menu__links">
+                                        <img
+                                            src="/public/assets/icons/notes-icon.svg"
+                                            alt="Заметки"
+                                        />
+                                        Заметки
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#/important"
+                                        class="left-menu__links"
+                                    >
+                                        <img
+                                            src="/public/assets/icons/important-icon.svg"
+                                            alt="Важно"
+                                        />
+                                        Важно
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href="#/planned"
+                                        class="left-menu__links"
+                                    >
+                                        <img
+                                            src="/public/assets/icons/planned-icon.svg"
+                                            alt="Запланировано"
+                                        />
+                                        Запланировано
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#/trash" class="left-menu__links">
+                                        <img
+                                            src="/public/assets/icons/trash-icon.svg"
+                                            alt="Корзина"
+                                        />
+                                        Корзина
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--! Боковое меню -->
+                        <div class="trash-page__info">
+                            <img
+                                src="/public/assets/images/trash-img.png"
+                                alt="img4"
+                            />
+                            <p>Ваша корзина пуста</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="new__page"></div>
             </header>
         </div>
     </body>
